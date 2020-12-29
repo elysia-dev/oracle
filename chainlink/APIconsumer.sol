@@ -5,7 +5,7 @@ import "@chainlink/contracts/src/v0.6/vendor/Ownable.sol";
 //import "https://github.com/smartcontractkit/chainlink/evm-contracts/src/v0.6/ChainlinkClient.sol";
 //import "https://github.com/smartcontractkit/chainlink/evm-contracts/src/v0.6/vendor/Ownable.sol";
 
-contract APIConsumer is ChainlinkClient {
+contract APIConsumer is ChainlinkClient, Ownable {
   
     uint256 public volume;
     
@@ -58,23 +58,23 @@ contract APIConsumer is ChainlinkClient {
         return sendChainlinkRequestTo(oracle, request, fee);
     }
     
-    /**
-     * Receive the response in the form of uint256
-     */ 
-    function fulfill(bytes32 _requestId, uint256 _volume) public recordChainlinkFulfillment(_requestId)
-    {
-        volume = _volume;
-    }
+  /**
+   * Receive the response in the form of uint256
+   */ 
+  function fulfill(bytes32 _requestId, uint256 _volume) public recordChainlinkFulfillment(_requestId)
+  {
+      volume = _volume;
+  }
 
-    function setOracle(address _oracle) external onlyOwner returns (bool) {
-        oracle = _oracle;
+  function setOracle(address _oracle) external onlyOwner returns (bool) {
+      oracle = _oracle;
 
-        emit NewOracle(_oracle);
+      emit NewOracle(_oracle);
 
-        return true;
-    }
+      return true;
+  }
 
-	function setJobId(address _jobId) external onlyOwner returns (bool) {
+	function setJobId(bytes32 _jobId) external onlyOwner returns (bool) {
         jobId = _jobId;
 
         emit NewJobId(_jobId);
@@ -89,4 +89,8 @@ contract APIConsumer is ChainlinkClient {
 
         return true;
     }
+
+  function getCurrentPrice() external view returns (uint256) {
+      return volume;
+  }
 }
