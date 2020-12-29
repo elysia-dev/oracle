@@ -5,7 +5,7 @@ import "@chainlink/contracts/src/v0.6/vendor/Ownable.sol";
 //import "https://github.com/smartcontractkit/chainlink/evm-contracts/src/v0.6/ChainlinkClient.sol";
 //import "https://github.com/smartcontractkit/chainlink/evm-contracts/src/v0.6/vendor/Ownable.sol";
 
-contract APIConsumer is ChainlinkClient {
+contract APIConsumer is ChainlinkClient, Ownable {
   
     uint256 public volume;
     
@@ -74,7 +74,7 @@ contract APIConsumer is ChainlinkClient {
         return true;
     }
 
-	function setJobId(address _jobId) external onlyOwner returns (bool) {
+	function setJobId(bytes32 _jobId) external onlyOwner returns (bool) {
         jobId = _jobId;
 
         emit NewJobId(_jobId);
@@ -88,5 +88,9 @@ contract APIConsumer is ChainlinkClient {
         emit NewFee(_fee);
 
         return true;
+    }
+
+    function getCurrentPrice() external view returns (uint256) {
+        return volume;
     }
 }
