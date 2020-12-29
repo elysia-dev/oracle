@@ -58,21 +58,21 @@ contract APIConsumer is ChainlinkClient, Ownable {
         return sendChainlinkRequestTo(oracle, request, fee);
     }
     
-    /**
-     * Receive the response in the form of uint256
-     */ 
-    function fulfill(bytes32 _requestId, uint256 _volume) public recordChainlinkFulfillment(_requestId)
-    {
-        volume = _volume;
-    }
+  /**
+   * Receive the response in the form of uint256
+   */ 
+  function fulfill(bytes32 _requestId, uint256 _volume) public recordChainlinkFulfillment(_requestId)
+  {
+      volume = _volume;
+  }
 
-    function setOracle(address _oracle) external onlyOwner returns (bool) {
-        oracle = _oracle;
+  function setOracle(address _oracle) external onlyOwner returns (bool) {
+      oracle = _oracle;
 
-        emit NewOracle(_oracle);
+      emit NewOracle(_oracle);
 
-        return true;
-    }
+      return true;
+  }
 
 	function setJobId(bytes32 _jobId) external onlyOwner returns (bool) {
         jobId = _jobId;
@@ -90,7 +90,7 @@ contract APIConsumer is ChainlinkClient, Ownable {
         return true;
     }
 
-    function getCurrentPrice() external view returns (uint256) {
-        return volume;
-    }
+  function getCurrentPrice() external view returns (uint256) {
+      return volume;
+  }
 }
